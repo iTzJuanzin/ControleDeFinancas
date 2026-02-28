@@ -1,0 +1,109 @@
+{% extends 'financas/base.html' %}
+
+{% block conteudo %}
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="mensagem mensagem-{{ msg.tags }}">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="cards">
+        <div class="card card-saldo">
+            <h3>SALDO</h3>
+            <p>R$ {{ saldo }}</p>
+        </div>
+        <div class="card card-entrada">
+            <h3>ENTRADAS</h3>
+            <p>R$ {{ total_entradas }}</p>
+        </div>
+        <div class="card card-saida">
+            <h3>SAIDAS</h3>
+            <p>R$ {{ total_saidas }}</p>
+        </div>
+    </div>
+
+
+    <div class="form-container">
+        <h2>📝 Nova Transação</h2>
+
+        <form method="POST" action=" {% url 'adicionar' %}">
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <select name="tipo">
+                    <option value="entrada">+ Entrada</option>
+                    <option value="saida">- Saída</option>
+                </select>
+
+                <input type="number"
+                       name="valor"
+                       placeholder="Valor R$"
+                       step="0.01"
+                       min="0.01"
+                       required>
+
+                <input type="text"
+                       name="descricao"
+                       placeholder="Descrição"
+                       required>
+            </div>
+
+            <button type="submit" class="btn btn-adicionar">
+                Adicionar
+            </button>
+
+        </form>
+    </div>
+
+    <div class="extrato">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>📋 Extrato</h2>
+            <a href="{% url 'exportar_excel' %}" class="btn btn-excel">
+                📥 Baixar Excel
+            </a>
+        </div>
+        {% if transacoes %}
+
+            {% for t in transacoes %}
+                <div class="transacao">
+
+                    <span class="transacao-descricao">
+                        {{ t.descricao }}
+                    </span>
+
+                    <span class="transacao-data">
+                        {{ t.data|date:"d/m/Y H:i" }}
+                    </span>
+
+                    {% if t.tipo == 'entrada' %}
+                        <span class="transacao-valor valor-positivo">
+                            + R$ {{ t.valor }}
+                        </span>
+                    {% else %}
+                        <span class="transacao-valor valor-negativo">
+                            - R$ {{ t.valor }}
+                        </span>
+                    {% endif %}
+
+                    <a href="{% url 'deletar' t.id %}" class="btn btn-deletar">
+                        🗑️
+                    </a>
+
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <p class="vazio">Nenhuma transação registrada.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+
+
+
