@@ -86,3 +86,21 @@ text
 - Estrutura organizada para análise financeira
 
 ---
+🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido com foco em:
+
+    ✅ Aprendizado sólido de Django
+    ✅ Entendimento da arquitetura MVC (MTV no Django)
+    ✅ Separação correta de responsabilidades (Models, Views, Templates)
+    ✅ Uso de arquivos estáticos (CSS)
+    ✅ Geração de arquivos via HTTP
+    ✅ Boas práticas de versionamento com Git
+---
+📌 Melhorias Futuras
+
+    🔐 Sistema de autenticação (usuários)
+    📅 Filtro por mês/ano
+    📈 Gráficos com Chart.js
+    💾 Persistência com PostgreSQL
+    🌍 Deploy em produção (Render / Railway / VPS)
